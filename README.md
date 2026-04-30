@@ -144,4 +144,3 @@ Environmental Data Scientist
 davismironga@gmail.com | +254 799 604 985
 
 **Washlab Consult Limited**  
-Marlon Odhiambo
