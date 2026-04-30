@@ -133,14 +133,14 @@ streamlit run app/app.py
 
 ## Intellectual Property
 
-All maps, the web application, code, and methodology produced under this project belong to Washlab Consult Limited on full payment, per the service agreement dated 17 April 2026. The code and methodology will be published openly so the analysis can be updated or replicated in other counties.
+All maps, the web application, code, and methodology produced under this project belong to Washlab Consult Limited, per the service agreement. The code and methodology will be published openly so the analysis can be updated or replicated in other counties.
 
 ---
 
 ## Contact
 
 **Davis Mironga**  
-Environmental Data Analyst  
+Environmental Data Scientist  
 davismironga@gmail.com | +254 799 604 985
 
 **Washlab Consult Limited**  
