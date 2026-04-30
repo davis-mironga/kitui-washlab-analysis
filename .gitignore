@@ -1,0 +1,65 @@
+# ── Large data files ──────────────────────────────────────────────────────────
+# Satellite rasters and GEE exports — stored in Google Drive
+data/satellite/
+*.tif
+*.tiff
+*.nc
+*.hdf
+*.h5
+
+# Borehole master dataset — contains county government data
+# Load from Google Drive in each notebook
+data/boreholes/*.xlsx
+data/boreholes/*.csv
+data/boreholes/*.pkl
+
+# ── Credentials and secrets ────────────────────────────────────────────────────
+# Never commit API keys, GEE credentials, or service accounts
+*.json
+service_account*.json
+credentials*.json
+.env
+secrets/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Jupyter notebooks ─────────────────────────────────────────────────────────
+# Keep .ipynb files but ignore checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ── Outputs ────────────────────────────────────────────────────────────────────
+# Committed selectively — only final clean exports
+# Do NOT ignore: outputs/maps/*.png, outputs/report/*.pdf
+# DO ignore large intermediate files
+outputs/maps/*.tif
+outputs/intermediate/
+
+# ── OS and editor files ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Streamlit ─────────────────────────────────────────────────────────────────
+.streamlit/secrets.toml
+
+# ── Temporary / scratch ───────────────────────────────────────────────────────
+scratch/
+tmp/
+temp/
+*.tmp
