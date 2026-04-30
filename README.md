@@ -1,4 +1,4 @@
-# Kitui County — WASHLAB Climate-Smart WASH Pilot
+# Kitui County: WASHLAB Climate-Smart WASH Pilot
 ### Spatial Analysis: Water Access Stress & Borehole Coverage Gap Analysis
 
 **Client:** Washlab Consult Limited  
