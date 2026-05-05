@@ -45,7 +45,7 @@ kitui-washlab-analysis/
 │
 ├── outputs/
 │   ├── maps/                                  # PNG/PDF map exports
-│   └/report/                                 # Final technical summary PDF
+│   └── report/                                # Final technical summary PDF
 │
 ├── docs/
 │   ├── analysis_plan.md                       # Full analysis plan
