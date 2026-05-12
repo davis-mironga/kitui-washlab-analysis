@@ -5,12 +5,13 @@ import plotly.graph_objects as go
 import json
 import requests
 st.set_page_config(page_title='WASHLAB Kitui',page_icon='💧',layout='wide',initial_sidebar_state='expanded')
-REPO='https://raw.githubusercontent.com/davis-mironga/kitui-washlab-analysis/main/data/'
+import os
+REPO=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data') + '/'
 @st.cache_data
 def load_data():
     table=pd.read_csv(REPO+'kitui_wasi_ward_table.csv')
-    wasi_geo=requests.get(REPO+'kitui_wasi_ward.geojson').json()
-    hs_geo=requests.get(REPO+'kitui_hotspot_ward.geojson').json()
+    wasi_geo=json.load(open(REPO+'kitui_wasi_ward.geojson'))
+    hs_geo=json.load(open(REPO+'kitui_hotspot_ward.geojson'))
     for f in wasi_geo['features']:
         ward=f['properties']['Ward']
         row=table[table['Ward']==ward]
