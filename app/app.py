@@ -7,7 +7,7 @@ import os
 import requests
 
 st.set_page_config(
-    page_title='WASHLAB Kitui — Water Access Stress Index',
+    page_title='WASHLAB Kitui: Water Access Stress Index',
     page_icon='💧',
     layout='wide',
     initial_sidebar_state='expanded'
