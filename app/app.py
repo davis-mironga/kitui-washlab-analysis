@@ -7,7 +7,7 @@ import os
 import requests
 
 st.set_page_config(
-    page_title='WASHLAB Kitui: Water Access Stress Index',
+    page_title='WASHLAB Kitui - Water Access Stress Index',
     page_icon='💧',
     layout='wide',
     initial_sidebar_state='expanded'
@@ -52,7 +52,7 @@ HOTSPOT_COLOURS = {
 
 with st.sidebar:
     st.title('WASHLAB')
-    st.caption('Climate-Smart WASH Pilot — Kitui County')
+    st.caption('Kitui County, Kenya')
     st.markdown('---')
     st.subheader('Filters')
     stress_filter = st.multiselect(
@@ -66,8 +66,8 @@ with st.sidebar:
         value=(0.0, 1.0), step=0.01
     )
     st.markdown('---')
-    st.caption('Phase 1 — satellite analysis only')
-    st.caption('C1 (boreholes) pending data receipt')
+    st.caption('Phase 1 analysis')
+    st.caption('Borehole data (C1) coming in Phase 2')
     st.caption('Source: CHIRPS, MODIS, WorldPop, SRTM')
 
 filtered = table[
@@ -83,7 +83,7 @@ filtered_geo = {
                  if f['properties']['Ward'] in filtered_wards]
 }
 
-st.title('Water Access Stress Index — Kitui County')
+st.title('Water Access Stress Index - Kitui County')
 st.markdown(
     'Phase 1 satellite analysis combining rainfall variability, vegetation stress, '
     'population exposure, and terrain difficulty across all 40 wards.'
@@ -111,7 +111,7 @@ with tab1:
         df_map = pd.DataFrame([{'id': str(i), **f['properties']}
                                 for i, f in enumerate(fg['features'])])
         if df_map.empty:
-            st.info('No wards match the current filter. Select at least one stress class in the sidebar.')
+            st.info('No wards selected. Choose at least one stress class from the sidebar.')
         else:
             fig_map = px.choropleth_mapbox(
                 df_map, geojson=fg, locations='id', color='WASI_mean',
@@ -142,7 +142,7 @@ with tab1:
                 )
             )
             st.plotly_chart(fig_map, use_container_width=True)
-            st.caption('Hover over a ward to see scores. C1 (boreholes) not included — pending data receipt.')
+            st.caption('Click on a ward to see its scores. Borehole coverage (C1) will be added in Phase 2.')
 
     with col2:
         st.subheader('Stress Class Distribution')
@@ -167,7 +167,7 @@ with tab1:
 
 with tab2:
     st.subheader('WASI Component Breakdown by Ward')
-    st.caption('Each bar shows the weighted contribution of the four components. Black dot = WASI composite score.')
+    st.caption('Bars show the weighted contribution of each component. The black dot is the final WASI score.')
     comp_sorted = table.sort_values('WASI_mean', ascending=True).copy()
     comp_cols  = ['C2_Rainfall', 'C3_NDVI', 'C4_Population', 'C5_Slope']
     weights    = [0.357, 0.214, 0.286, 0.143]
@@ -214,13 +214,13 @@ with tab2:
     fig_radar.update_layout(
         polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
         height=350, margin=dict(l=40, r=40, t=40, b=40),
-        title=f'Component profile — {selected_ward}'
+        title=f'Component profile: {selected_ward}'
     )
     st.plotly_chart(fig_radar, use_container_width=True)
 
 with tab3:
     st.subheader('Spatial Water Stress Clustering')
-    st.markdown("**Moran's I = 0.332 (p = 0.001)** — water stress is significantly clustered, not randomly distributed.")
+    st.markdown("Moran's I = 0.332 (p = 0.001). High-stress wards tend to cluster near other high-stress wards.")
     hc1, hc2 = st.columns([2, 1])
     with hc1:
         hg = json.loads(json.dumps(hs_geo))
@@ -229,7 +229,7 @@ with tab3:
         hs_map = pd.DataFrame([{'id': str(i), **f['properties']}
                                 for i, f in enumerate(hg['features'])])
         if hs_map.empty:
-            st.info('No hotspot data to display.')
+            st.info('No data to display.')
         else:
             fig_hs = px.choropleth_mapbox(
                 hs_map, geojson=hg, locations='id', color='Ward_Class',
@@ -248,7 +248,7 @@ with tab3:
             fig_hs.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=500,
                                  legend=dict(title='Classification', orientation='v'))
             st.plotly_chart(fig_hs, use_container_width=True)
-            st.caption('Ward classified as hotspot if >=30% of pixels have Gi* z-score > 1.96 (p<0.05).')
+            st.caption('A ward is classified as a hotspot if 30% or more of its pixels have a Gi* z-score above 1.96.')
 
     with hc2:
         st.subheader('Classification summary')
@@ -308,7 +308,7 @@ with tab4:
 
 st.markdown('---')
 st.caption(
-    'WASHLAB Climate-Smart WASH Pilot — Kitui County, Kenya | '
+    'WASHLAB Kitui County, Kenya, Kenya | '
     'Phase 1 satellite analysis | '
     'Data: CHIRPS, MODIS MOD13A3, WorldPop 2020, SRTM via Google Earth Engine | '
     'Analysis: Davis Mironga | '
