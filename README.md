@@ -12,7 +12,7 @@ Agreement date: 17 April 2026
 
 This repository contains the full analysis pipeline for the WASHLAB Climate-Smart WASH Pilot site selection in Kitui County. The work covers two phases:
 
-**Phase 1 (complete)** builds a Water Access Stress Index from four satellite datasets — rainfall variability, vegetation condition, population exposure, and terrain difficulty — across all 40 wards at 500m resolution. It also maps seasonal water availability and identifies spatial stress clusters using Getis-Ord Gi* analysis.
+**Phase 1 (complete)** builds a Water Access Stress Index from four satellite datasets, rainfall variability, vegetation condition, population exposure, and terrain difficulty, across all 40 wards at 500m resolution. It also maps seasonal water availability and identifies spatial stress clusters using Getis-Ord Gi* analysis.
 
 **Phase 2 (in progress)** maps borehole coverage gaps, identifies communities outside walking distance of a functional borehole, and ranks pilot sites using a 100-point scoring framework. Phase 2 notebooks are built and ready to run once field assessment data are incorporated.
 
