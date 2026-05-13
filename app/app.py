@@ -110,36 +110,39 @@ with tab1:
             f['id'] = str(i)
         df_map = pd.DataFrame([{'id': str(i), **f['properties']}
                                 for i, f in enumerate(fg['features'])])
-        fig_map = px.choropleth_mapbox(
-            df_map, geojson=fg, locations='id', color='WASI_mean',
-            color_continuous_scale=[
-                [0.0, '#375623'], [0.25, '#A9D18E'], [0.40, '#F6C344'],
-                [0.55, '#E26B0A'], [0.70, '#C00000'], [1.0, '#7B0000'],
-            ],
-            range_color=[0, 1],
-            mapbox_style='carto-positron',
-            zoom=7, center={'lat': -1.5, 'lon': 38.3}, opacity=0.75,
-            hover_data={
-                'id': False, 'Ward': True, 'WASI_mean': ':.3f',
-                'Stress_Class': True, 'C2_Rainfall': ':.3f',
-                'C3_NDVI': ':.3f', 'C4_Population': ':.3f', 'C5_Slope': ':.3f',
-            },
-            labels={
-                'WASI_mean': 'WASI Score', 'Stress_Class': 'Stress Class',
-                'C2_Rainfall': 'C2 Rainfall', 'C3_NDVI': 'C3 NDVI',
-                'C4_Population': 'C4 Population', 'C5_Slope': 'C5 Slope',
-            }
-        )
-        fig_map.update_layout(
-            margin=dict(l=0, r=0, t=0, b=0), height=550,
-            coloraxis_colorbar=dict(
-                title='WASI Score',
-                tickvals=[0, 0.25, 0.40, 0.55, 0.70, 1.0],
-                ticktext=['0.00', '0.25 (Low)', '0.40 (Mod)', '0.55 (High)', '0.70 (V.High)', '1.00'],
+        if df_map.empty:
+            st.info('No wards match the current filter. Select at least one stress class in the sidebar.')
+        else:
+            fig_map = px.choropleth_mapbox(
+                df_map, geojson=fg, locations='id', color='WASI_mean',
+                color_continuous_scale=[
+                    [0.0, '#375623'], [0.25, '#A9D18E'], [0.40, '#F6C344'],
+                    [0.55, '#E26B0A'], [0.70, '#C00000'], [1.0, '#7B0000'],
+                ],
+                range_color=[0, 1],
+                mapbox_style='carto-positron',
+                zoom=7, center={'lat': -1.5, 'lon': 38.3}, opacity=0.75,
+                hover_data={
+                    'id': False, 'Ward': True, 'WASI_mean': ':.3f',
+                    'Stress_Class': True, 'C2_Rainfall': ':.3f',
+                    'C3_NDVI': ':.3f', 'C4_Population': ':.3f', 'C5_Slope': ':.3f',
+                },
+                labels={
+                    'WASI_mean': 'WASI Score', 'Stress_Class': 'Stress Class',
+                    'C2_Rainfall': 'C2 Rainfall', 'C3_NDVI': 'C3 NDVI',
+                    'C4_Population': 'C4 Population', 'C5_Slope': 'C5 Slope',
+                }
             )
-        )
-        st.plotly_chart(fig_map, use_container_width=True)
-        st.caption('Hover over a ward to see scores. C1 (boreholes) not included — pending data receipt.')
+            fig_map.update_layout(
+                margin=dict(l=0, r=0, t=0, b=0), height=550,
+                coloraxis_colorbar=dict(
+                    title='WASI Score',
+                    tickvals=[0, 0.25, 0.40, 0.55, 0.70, 1.0],
+                    ticktext=['0.00', '0.25 (Low)', '0.40 (Mod)', '0.55 (High)', '0.70 (V.High)', '1.00'],
+                )
+            )
+            st.plotly_chart(fig_map, use_container_width=True)
+            st.caption('Hover over a ward to see scores. C1 (boreholes) not included — pending data receipt.')
 
     with col2:
         st.subheader('Stress Class Distribution')
@@ -225,24 +228,27 @@ with tab3:
             f['id'] = str(i)
         hs_map = pd.DataFrame([{'id': str(i), **f['properties']}
                                 for i, f in enumerate(hg['features'])])
-        fig_hs = px.choropleth_mapbox(
-            hs_map, geojson=hg, locations='id', color='Ward_Class',
-            color_discrete_map=HOTSPOT_COLOURS,
-            mapbox_style='carto-positron',
-            zoom=7, center={'lat': -1.5, 'lon': 38.3}, opacity=0.75,
-            hover_data={
-                'id': False, 'Ward': True, 'Ward_Class': True,
-                'WASI_mean': ':.3f', 'Gi_Mean': ':.3f', 'Hotspot_Pct': ':.2f',
-            },
-            labels={
-                'Ward_Class': 'Classification', 'WASI_mean': 'WASI Score',
-                'Gi_Mean': 'Mean Gi* Z-score', 'Hotspot_Pct': 'Hotspot pixel %',
-            }
-        )
-        fig_hs.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=500,
-                             legend=dict(title='Classification', orientation='v'))
-        st.plotly_chart(fig_hs, use_container_width=True)
-        st.caption('Ward classified as hotspot if >=30% of pixels have Gi* z-score > 1.96 (p<0.05).')
+        if hs_map.empty:
+            st.info('No hotspot data to display.')
+        else:
+            fig_hs = px.choropleth_mapbox(
+                hs_map, geojson=hg, locations='id', color='Ward_Class',
+                color_discrete_map=HOTSPOT_COLOURS,
+                mapbox_style='carto-positron',
+                zoom=7, center={'lat': -1.5, 'lon': 38.3}, opacity=0.75,
+                hover_data={
+                    'id': False, 'Ward': True, 'Ward_Class': True,
+                    'WASI_mean': ':.3f', 'Gi_Mean': ':.3f', 'Hotspot_Pct': ':.2f',
+                },
+                labels={
+                    'Ward_Class': 'Classification', 'WASI_mean': 'WASI Score',
+                    'Gi_Mean': 'Mean Gi* Z-score', 'Hotspot_Pct': 'Hotspot pixel %',
+                }
+            )
+            fig_hs.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=500,
+                                 legend=dict(title='Classification', orientation='v'))
+            st.plotly_chart(fig_hs, use_container_width=True)
+            st.caption('Ward classified as hotspot if >=30% of pixels have Gi* z-score > 1.96 (p<0.05).')
 
     with hc2:
         st.subheader('Classification summary')
