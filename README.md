@@ -1,146 +1,143 @@
 # Kitui County: WASHLAB Climate-Smart WASH Pilot
-### Spatial Analysis: Water Access Stress & Borehole Coverage Gap Analysis
 
-**Client:** Washlab Consult Limited  
-**Analyst:** Davis Mironga — Environmental Data Analyst  
-**County:** Kitui County, Kenya  
-**Agreement date:** 17 April 2026  
-**Status:** Phase 1 in progress
+**Satellite analysis of water access stress and borehole coverage gaps across all 40 wards of Kitui County, Kenya.**
 
----
-
-## Overview
-
-This repository contains all code, methodology, and documentation for the WASHLAB Climate-Smart WASH Pilot spatial analysis for Kitui County. The analysis covers two phases:
-
-- **Phase 1 — Water Access Stress Analysis:** Satellite-derived stress index, seasonal water availability, vegetation condition, and spatial hotspot mapping across all 40 wards.
-- **Phase 2 — Coverage Gap Analysis and Site Prioritisation:** Borehole coverage mapping, underserved community identification, and IoT pilot site ranking using the county's 100-point scoring framework.
-
-All code is written in Python and runs in Google Colab. Google Earth Engine is used for satellite data preprocessing. The web application is built in Streamlit and hosted publicly.
+Client: Washlab Consult Limited  
+Analyst: Davis Mironga, Environmental Data Analyst  
+Agreement date: 17 April 2026
 
 ---
 
-## Repository Structure
+## What this is
+
+This repository contains the full analysis pipeline for the WASHLAB Climate-Smart WASH Pilot site selection in Kitui County. The work covers two phases:
+
+**Phase 1 (complete)** builds a Water Access Stress Index from four satellite datasets — rainfall variability, vegetation condition, population exposure, and terrain difficulty — across all 40 wards at 500m resolution. It also maps seasonal water availability and identifies spatial stress clusters using Getis-Ord Gi* analysis.
+
+**Phase 2 (in progress)** maps borehole coverage gaps, identifies communities outside walking distance of a functional borehole, and ranks pilot sites using a 100-point scoring framework. Phase 2 notebooks are built and ready to run once field assessment data are incorporated.
+
+All code runs in Google Colab. Satellite data is accessed through Google Earth Engine at no cost. The web application is live at the link below.
+
+**Live app:** https://kitui-washlab-analysis-csx2cpc8rfvkrefgt342ue.streamlit.app
+
+---
+
+## Repository structure
 
 ```
 kitui-washlab-analysis/
-│
 ├── notebooks/
-│   ├── 01_GEE_Data_Preprocessing.ipynb       # Satellite data pull and export
-│   ├── 02_Water_Stress_Index.ipynb            # WASI construction and mapping
-│   ├── 03_Hotspot_Analysis.ipynb              # Gi* spatial autocorrelation
-│   ├── 04_Coverage_Gap_Analysis.ipynb         # 2km buffer, population coverage
-│   ├── 05_Site_Prioritisation.ipynb           # 100-point scoring and ranking
-│   ├── 06_Validation_and_QA.ipynb             # GPS checks, outlier review
-│   └── 07_Report_Figures.ipynb                # Final map and figure exports
+│   ├── 01_GEE_Data_Preprocessing.ipynb     # Satellite data export to GEE Assets
+│   ├── 02_Water_Stress_Index.ipynb         # WASI construction and ward mapping
+│   ├── 03_Hotspot_Analysis.ipynb           # Gi* spatial clustering analysis
+│   ├── 04_Coverage_Gap_Analysis.ipynb      # Borehole coverage gap (Phase 2)
+│   ├── 05_Site_Prioritisation.ipynb        # 100-point site ranking (Phase 2)
+│   ├── 06_Validation_and_QA.ipynb          # GPS checks and outlier review (Phase 2)
+│   └── 07_Report_Figures.ipynb             # Publication-ready figure exports
 │
 ├── app/
-│   ├── app.py                                 # Streamlit web application
-│   └── requirements.txt                       # Python dependencies (pinned)
+│   └── app.py                              # Streamlit web application
 │
 ├── data/
-│   ├── boreholes/                             # Borehole master dataset (see note)
-│   ├── boundaries/                            # Kitui county/ward shapefiles
-│   └── satellite/                             # GEE-exported rasters (see note)
-│
-├── outputs/
-│   ├── maps/                                  # PNG/PDF map exports
-│   └── report/                                # Final technical summary PDF
+│   ├── kitui_wasi_ward.geojson             # Ward polygons with WASI scores
+│   ├── kitui_wasi_ward_table.csv           # 40-ward WASI table with components
+│   └── kitui_hotspot_ward.geojson          # Ward hotspot classification
 │
 ├── docs/
-│   ├── analysis_plan.md                       # Full analysis plan
-│   ├── data_dictionary.md                     # Column definitions and standards
-│   └── scoring_framework.md                   # 100-point IoT site scoring criteria
+│   ├── analysis_plan.md
+│   ├── data_dictionary.md
+│   └── scoring_framework.md
 │
-├── .gitignore
+├── requirements.txt                        # Streamlit Cloud dependencies
 └── README.md
 ```
 
 ---
 
-## Data
+## Phase 1 results
 
-### Borehole Dataset
-- **706 boreholes** across **40 wards** and **7 sub-counties**
-- 608 from the Kitui County 34-ward inventory
-- 98 from 6 additional wards (Central, Kivou, Mui, Nguni, Nuu, Waita) sourced from mWater
-- GPS quality flagged: 361 Verified | 146 Needs Review | 29 Low Confidence | 199 No GPS
-- Full master dataset stored in Google Drive (not committed to this repo — contains county government data)
+| Deliverable | Status | Output file |
+|-------------|--------|-------------|
+| Water Access Stress Index map | Complete | kitui_wasi_ward.geojson |
+| Seasonal water availability map | Complete | fig01_seasonal_water_availability.png |
+| Vegetation stress and land condition map | Complete | fig02_vegetation_stress.png |
+| Spatial hotspot analysis | Complete | kitui_hotspot_ward.geojson |
+| Interactive web application | Live | streamlit.app link above |
+| Phase 1 report | Complete | WASHLAB_Kitui_Phase1_Report_v6.docx |
 
-### Satellite Data
-Large raster files exported from GEE are stored in Google Drive and loaded into Colab notebooks directly. File paths are documented in each notebook. Rasters are not committed to this repository.
+### Key findings
 
-### Boundaries
-Kitui County, sub-county, and ward shapefiles sourced from GADM Level 2. Stored in `data/boundaries/`.
+Kanziko is the highest-stress ward in the county (WASI = 0.559), the only ward to reach the High stress class. All four stress components are simultaneously elevated there. Township ranks second (WASI = 0.540) on the strength of its population exposure alone — it has the highest household density in the county. Kyangwithya East is the sole statistically significant hotspot ward, where high population density, steep terrain, and moderate rainfall variability converge in a small geographic area.
+
+The hotspot analysis confirms significant spatial clustering (Moran's I = 0.332, p = 0.001). A strong pixel-level stress cluster was identified in the south of the county centred on Kanziko and Ikutha, with Gi* z-scores exceeding 7.5 at the most concentrated points. This cluster is not visible in the ward-level map alone.
 
 ---
 
-## Setup
+## Phase 2 status
 
-### Requirements
-- Google account with access to Google Earth Engine (sign up at earthengine.google.com)
-- Google Colab (free tier sufficient for most notebooks)
-- Python 3.10+
+| Deliverable | Status |
+|-------------|--------|
+| Borehole coverage gap map | Notebooks built, borehole data received |
+| Population in gap by ward | Ready to run |
+| Priority site ranking | Ready to run after coverage gap |
+| Updated web application | Pending Phase 2 outputs |
+| Phase 2 report | Pending Phase 2 outputs |
 
-### Running notebooks
-All notebooks are designed to run in Google Colab. Open directly from GitHub:
+The borehole dataset covers 632 boreholes across 34 wards with a county-wide functionality rate of 76.5%. Six additional wards are in a separate tab and will be merged before running Notebook 04. Five ward names require reconciliation between the borehole dataset and the WASI ward names before the spatial join.
 
-1. Go to [colab.research.google.com](https://colab.research.google.com)
-2. File → Open notebook → GitHub tab
-3. Enter this repository URL
-4. Select the notebook you want to run
+---
 
-Each notebook has a setup cell at the top that installs all required packages.
+## Satellite data sources
 
-### Running the web app locally
+| Dataset | Source | Resolution | Used for |
+|---------|--------|------------|----------|
+| CHIRPS v2.0 | Climate Hazards Group, UC Santa Barbara | 5 km | Rainfall variability (C2) |
+| MODIS MOD13A3 | NASA Land Processes DAAC | 500 m | Vegetation condition (C3) |
+| WorldPop 2020 | WorldPop, University of Southampton | 100 m | Population exposure (C4) |
+| SRTM | NASA/USGS | 30 m | Terrain difficulty (C5) |
+| JRC Global Surface Water | Joint Research Centre, European Commission | 30 m | Surface water mapping |
+| ERA5-Land | ECMWF | 9 km | Supporting reference |
+
+All datasets accessed through Google Earth Engine. GEE project ID: `kitui-washlab-analysis`. Asset folder: `projects/kitui-washlab-analysis/assets/kitui/`.
+
+Ward boundaries from the American Red Cross Kenya Wards dataset (HDX, 2019), derived from IEBC and National Land Commission data. This source was used instead of GADM because it reflects the post-2013 ward structure used by county governments.
+
+---
+
+## Running the notebooks
+
+All notebooks run in Google Colab. Each has an Open in Colab badge at the top. The setup cell at the top of each notebook installs all required packages.
+
+**Order of execution for Phase 1:**
+1. Notebook 01 — run once to export satellite assets to GEE. Takes 20 to 30 minutes.
+2. Notebook 02 — run after Notebook 01 completes. Produces WASI outputs to Google Drive.
+3. Notebook 03 — run after Notebook 02. Produces hotspot outputs to Google Drive.
+4. Notebook 07 — run after Notebook 03. Produces all report figures.
+
+**For Phase 2**, place the borehole Excel file in `Kitui_WASHLAB/boreholes/` on Google Drive, then run Notebooks 04, 05, and 06 in order.
+
+**Google Drive folder:** `MyDrive/Kitui_WASHLAB/`
+
+---
+
+## Running the web app locally
+
 ```bash
-pip install -r app/requirements.txt
+git clone https://github.com/davis-mironga/kitui-washlab-analysis
+cd kitui-washlab-analysis
+pip install -r requirements.txt
 streamlit run app/app.py
 ```
 
 ---
 
-## Deliverables
+## Intellectual property
 
-| Phase | Deliverable | Status |
-|-------|-------------|--------|
-| 1 | Water Access Stress Index map | In progress |
-| 1 | Seasonal water availability map | In progress |
-| 1 | Vegetation stress and land condition map | In progress |
-| 1 | Spatial hotspot analysis | In progress |
-| 1 | Interactive web app (Phase 1 layers) | In progress |
-| 2 | Borehole coverage gap map | Pending Phase 1 completion |
-| 2 | Priority site ranking (100-point framework) | Pending field assessment data |
-| 2 | Updated web app (Phase 2 layers) | Pending |
-| 2 | Final technical summary report | Pending |
-
----
-
-## Satellite Data Sources
-
-| Dataset | Source | Resolution | Use |
-|---------|--------|------------|-----|
-| NDVI | MODIS MOD13A3 | 1km monthly | Vegetation condition |
-| Rainfall | CHIRPS v2.0 | 5km monthly | Seasonal water availability |
-| Land Surface Temperature | MODIS MOD11A2 | 1km 8-day | Heat and aridity |
-| Evapotranspiration | MODIS MOD16A2 | 500m 8-day | Water consumption |
-| Terrain / DEM | SRTM 30m | 30m | Slope and accessibility |
-| Population density | WorldPop 2020 | 100m | Exposure weighting |
-| Soil moisture | ERA5-Land | ~9km monthly | Groundwater recharge proxy |
-| Surface water | JRC Global Surface Water | 30m | Permanent vs seasonal water |
-
----
-
-## Intellectual Property
-
-All maps, the web application, code, and methodology produced under this project belong to Washlab Consult Limited, per the service agreement. The code and methodology will be published openly so the analysis can be updated or replicated in other counties.
+All maps, the web application, code, and methodology produced under this project belong to Washlab Consult Limited per the service agreement dated 17 April 2026. The code and methodology are published openly so the analysis can be updated as new satellite data becomes available or replicated in other counties.
 
 ---
 
 ## Contact
 
-**Davis Mironga**  
-Environmental Data Scientist  
-davismironga@gmail.com | +254 799 604 985
-
-**Washlab Consult Limited**  
+Davis Mironga — davismironga@gmail.com  
+Washlab Consult Limited
