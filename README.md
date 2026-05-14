@@ -63,7 +63,7 @@ kitui-washlab-analysis/
 | Vegetation stress and land condition map | Complete | fig02_vegetation_stress.png |
 | Spatial hotspot analysis | Complete | kitui_hotspot_ward.geojson |
 | Interactive web application | Live | streamlit.app link above |
-| Phase 1 report | Complete | WASHLAB_Kitui_Phase1_Report_v6.docx |
+| Phase 1 report | Complete | Phase 1 report |
 
 ### Key findings
 
