@@ -67,7 +67,7 @@ kitui-washlab-analysis/
 
 ### Key findings
 
-Kanziko is the highest-stress ward in the county (WASI = 0.559), the only ward to reach the High stress class. All four stress components are simultaneously elevated there. Township ranks second (WASI = 0.540) on the strength of its population exposure alone — it has the highest household density in the county. Kyangwithya East is the sole statistically significant hotspot ward, where high population density, steep terrain, and moderate rainfall variability converge in a small geographic area.
+Kanziko is the highest-stress ward in the county (WASI = 0.559), the only ward to reach the High stress class. All four stress components are simultaneously elevated there. Township ranks second (WASI = 0.540) on the strength of its population exposure alone, it has the highest household density in the county. Kyangwithya East is the sole statistically significant hotspot ward, where high population density, steep terrain, and moderate rainfall variability converge in a small geographic area.
 
 The hotspot analysis confirms significant spatial clustering (Moran's I = 0.332, p = 0.001). A strong pixel-level stress cluster was identified in the south of the county centred on Kanziko and Ikutha, with Gi* z-scores exceeding 7.5 at the most concentrated points. This cluster is not visible in the ward-level map alone.
 
