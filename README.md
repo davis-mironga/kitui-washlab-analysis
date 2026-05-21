@@ -2,11 +2,6 @@
 
 **Satellite analysis of water access stress and borehole coverage gaps across all 40 wards of Kitui County, Kenya.**
 
-Client: Washlab Consult Limited
-Analyst: Davis Mironga, Environmental Data Analyst
-Agreement date: 17 April 2026
-
----
 
 ## What this is
 
