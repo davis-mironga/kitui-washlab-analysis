@@ -2,8 +2,8 @@
 
 **Satellite analysis of water access stress and borehole coverage gaps across all 40 wards of Kitui County, Kenya.**
 
-Client: Washlab Consult Limited  
-Analyst: Davis Mironga, Environmental Data Analyst  
+Client: Washlab Consult Limited
+Analyst: Davis Mironga, Environmental Data Analyst
 Agreement date: 17 April 2026
 
 ---
@@ -12,7 +12,7 @@ Agreement date: 17 April 2026
 
 This repository contains the full analysis pipeline for the WASHLAB Climate-Smart WASH Pilot site selection in Kitui County. The work covers two phases:
 
-**Phase 1 (complete)** builds a Water Access Stress Index from four satellite datasets, rainfall variability, vegetation condition, population exposure, and terrain difficulty, across all 40 wards at 500m resolution. It also maps seasonal water availability and identifies spatial stress clusters using Getis-Ord Gi* analysis.
+**Phase 1 (complete)** builds a Water Access Stress Index from four satellite datasets — rainfall variability, vegetation condition, population exposure, and terrain difficulty — across all 40 wards at 500m resolution. It also maps seasonal water availability and identifies spatial stress clusters using Getis-Ord Gi* analysis.
 
 **Phase 2 (in progress)** maps borehole coverage gaps, identifies communities outside walking distance of a functional borehole, and ranks pilot sites using a 100-point scoring framework. Phase 2 notebooks are built and ready to run once field assessment data are incorporated.
 
@@ -63,11 +63,11 @@ kitui-washlab-analysis/
 | Vegetation stress and land condition map | Complete | fig02_vegetation_stress.png |
 | Spatial hotspot analysis | Complete | kitui_hotspot_ward.geojson |
 | Interactive web application | Live | streamlit.app link above |
-| Phase 1 report | Complete | Phase 1 report |
+| Phase 1 report | Complete | WASHLAB_Kitui_Phase1_Report_v7.docx |
 
 ### Key findings
 
-Kanziko is the highest-stress ward in the county (WASI = 0.559), the only ward to reach the High stress class. All four stress components are simultaneously elevated there. Township ranks second (WASI = 0.540) on the strength of its population exposure alone, it has the highest household density in the county. Kyangwithya East is the sole statistically significant hotspot ward, where high population density, steep terrain, and moderate rainfall variability converge in a small geographic area.
+Kanziko is the highest-stress ward in the county (WASI = 0.559), the only ward to reach the High stress class. All four stress components are simultaneously elevated there. Township ranks second (WASI = 0.540) on the strength of its population exposure alone — it has the highest household density in the county. Kyangwithya East is the sole statistically significant hotspot ward, where high population density, steep terrain, and moderate rainfall variability converge in a small geographic area.
 
 The hotspot analysis confirms significant spatial clustering (Moran's I = 0.332, p = 0.001). A strong pixel-level stress cluster was identified in the south of the county centred on Kanziko and Ikutha, with Gi* z-scores exceeding 7.5 at the most concentrated points. This cluster is not visible in the ward-level map alone.
 
@@ -83,7 +83,7 @@ The hotspot analysis confirms significant spatial clustering (Moran's I = 0.332,
 | Updated web application | Pending Phase 2 outputs |
 | Phase 2 report | Pending Phase 2 outputs |
 
-The borehole dataset covers 632 boreholes across 34 wards with a county-wide functionality rate of 76.5%. Six additional wards are in a separate tab and will be merged before running Notebook 04. Five ward names require reconciliation between the borehole dataset and the WASI ward names before the spatial join.
+The borehole dataset covers 730 boreholes across all 40 wards. Of these, 632 are individual borehole records across 34 wards and can be used directly in the spatial coverage gap analysis. The remaining 98 boreholes across 6 additional wards (Central, Kivou, Mui, Nguni, Nuu, Waita) are available as ward-level summaries only and will be used for ward-level estimates. Five ward names require reconciliation between the borehole dataset and the WASI ward names before the spatial join.
 
 ---
 
@@ -96,7 +96,6 @@ The borehole dataset covers 632 boreholes across 34 wards with a county-wide fun
 | WorldPop 2020 | WorldPop, University of Southampton | 100 m | Population exposure (C4) |
 | SRTM | NASA/USGS | 30 m | Terrain difficulty (C5) |
 | JRC Global Surface Water | Joint Research Centre, European Commission | 30 m | Surface water mapping |
-| ERA5-Land | ECMWF | 9 km | Supporting reference |
 
 All datasets accessed through Google Earth Engine. GEE project ID: `kitui-washlab-analysis`. Asset folder: `projects/kitui-washlab-analysis/assets/kitui/`.
 
@@ -139,5 +138,5 @@ All maps, the web application, code, and methodology produced under this project
 
 ## Contact
 
-Davis Mironga — davismironga@gmail.com  
+Davis Mironga — davismironga@gmail.com
 Washlab Consult Limited
