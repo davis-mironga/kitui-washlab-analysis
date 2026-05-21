@@ -6,6 +6,14 @@
 
 The borehole dataset is provided by the Kitui County water authority. Place the file in `Kitui_WASHLAB/boreholes/` on Google Drive before running Notebook 04. The notebook auto-detects the file and prints available columns for verification before proceeding.
 
+**Important:** The dataset has two distinct parts with different levels of detail. The main 34-ward sheet contains 632 individual borehole records with GPS coordinates and can be used directly in the spatial coverage gap analysis. The six additional wards sheet contains 98 boreholes as ward-level summaries only — no individual borehole locations — and can only be used for ward-level estimates.
+
+| Part | Wards | Boreholes | Detail level | Spatial use |
+|------|-------|-----------|--------------|-------------|
+| Main dataset | 34 | 632 | Individual records with GPS | Full spatial analysis |
+| Six additional wards | 6 | 98 | Ward-level totals only | Ward-level estimates only |
+| **Total** | **40** | **730** | | |
+
 ---
 
 ## Loading in Python
@@ -46,7 +54,7 @@ Ward names in the borehole dataset may differ slightly from the WASI ward names 
 | Mutomo/Kibwea | Mutomo |
 | Yatta/Kwa Vonza | Kwavonza/Yatta |
 
-If the dataset covers fewer than 40 wards, check whether the remaining wards are in a separate tab or sheet and merge them into the main dataset before running Notebook 04.
+The six additional wards (Central, Kivou, Mui, Nguni, Nuu, Waita) are in a separate tab or sheet. Merge them into the main dataset before running Notebook 04, noting that they contain ward-level summaries only.
 
 ---
 
@@ -140,11 +148,11 @@ no_gps = df[df['Latitude'].isna() | df['Longitude'].isna()]
 
 | Gap | Impact | Resolution |
 |-----|--------|------------|
+| Six additional wards available as ward totals only | Individual borehole locations not available for spatial analysis | Use for ward-level estimates only |
 | Missing GPS coordinates | Cannot include in coverage gap map | Field GPS collection required |
 | Missing population served | Cannot quantify population in gap | Field data collection |
 | Missing yield data | Cannot assess reliable yield | Field data collection |
 | Ward names not matching WASI wards | Spatial join will fail | See reconciliation table above |
-| Wards in separate tab or sheet | Not included in main join | Merge before running Notebook 04 |
 
 ---
 
