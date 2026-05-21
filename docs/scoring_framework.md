@@ -1,8 +1,8 @@
 # IoT Pilot Site Scoring Framework
 
-**Source:** Kitui County Borehole Dashboard — Sheet 5 (Ranking Framework)  
-**Total points:** 100  
-**Points available from existing data:** 45  
+**Source:** WASHLAB IoT Pilot Scoring Framework
+**Total points:** 100
+**Points available from existing data:** 45
 **Points requiring field assessment:** 55
 
 ---
@@ -28,8 +28,8 @@ The 55 field-assessed points are not optional — they determine the final short
 
 #### 1. Population Served — 20 points
 
-**Data source:** `Population_Served_HHs` column in master dataset  
-**Coverage:** 573 of 608 county boreholes populated
+**Data source:** Population served column in borehole dataset
+**Coverage:** Confirm against current dataset before running Notebook 05
 
 | Score | Condition |
 |-------|-----------|
@@ -56,8 +56,8 @@ def score_population(hhs, params):
 
 #### 2. Reliable Yield — 15 points
 
-**Data source:** `Yield_m3_hr` column in master dataset  
-**Coverage:** 548 of 608 county boreholes populated  
+**Data source:** Yield column in borehole dataset
+**Coverage:** Confirm against current dataset before running Notebook 05
 **Key threshold:** >2.5 m³/hr
 
 | Score | Condition |
@@ -71,7 +71,7 @@ def score_population(hhs, params):
 
 #### 3. Borehole Ownership — 10 points
 
-**Data source:** `Management_Type` column  
+**Data source:** Management type column in borehole dataset
 **Note:** If the project enables WSP registration of community-managed boreholes, reverse scoring applies per framework rules.
 
 | Score | Management Type |
@@ -91,7 +91,7 @@ def score_population(hhs, params):
 
 #### 4. Additionality Strength — 20 points
 
-**Data source:** Field assessment — **not available in any current dataset**  
+**Data source:** Field assessment — **not available in any current dataset**
 **Question:** Would safe water and sustainable O&M continue without this project?
 
 Assesses:
@@ -100,7 +100,7 @@ Assesses:
 - Water quality intervention status
 - Evidence of O&M sustainability without external support
 
-The 5 boreholes in Sheet 7 (Field Sampling) of the dashboard are specifically selected to develop and test this assessment protocol before the full field campaign.
+A field sampling protocol should be developed and tested on a representative set of boreholes before the full field campaign begins.
 
 | Score | Condition |
 |-------|-----------|
@@ -118,7 +118,7 @@ The 5 boreholes in Sheet 7 (Field Sampling) of the dashboard are specifically se
 
 | Score | Condition |
 |-------|-----------|
-| 10 | Microbial risk only (no chemical/physical contamination) |
+| 10 | Microbial risk only (no chemical or physical contamination) |
 | 7  | Minor treatable chemical issues |
 | 4  | Significant treatment required |
 | 0  | High salinity, fluoride, or other major contaminants |
@@ -127,7 +127,7 @@ The 5 boreholes in Sheet 7 (Field Sampling) of the dashboard are specifically se
 
 #### 6. Rehabilitation Cost — 10 points
 
-**Applies to:** Non-functional boreholes only  
+**Applies to:** Non-functional boreholes only
 **Data source:** Engineering site assessment — **not available**
 
 | Score | Condition |
@@ -152,7 +152,7 @@ The 5 boreholes in Sheet 7 (Field Sampling) of the dashboard are specifically se
 
 #### 8. IoT Viability — 5 points
 
-**Data source:** On-site survey — **not available**  
+**Data source:** On-site survey — **not available**
 
 Assesses:
 - Physical condition of borehole casing
@@ -170,8 +170,8 @@ Assesses:
 
 #### 9. Energy Compliance — 20 points
 
-**Data source:** Field verification — **not available**  
-**Note:** This is the single largest unscored criterion (20 pts). Solarisation data is absent from all current datasets. Until field verification is available, use `Management_Type` (Kitwasco/professional) as an interim proxy and flag this assumption clearly in all outputs.
+**Data source:** Field verification — **not available**
+**Note:** This is the single largest unscored criterion (20 pts). Solarisation data is absent from all current datasets. Until field verification is available, use management type (Kitwasco or professional management) as an interim proxy and flag this assumption clearly in all outputs.
 
 | Score | Energy source |
 |-------|--------------|
