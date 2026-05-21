@@ -1,7 +1,5 @@
 # Analysis Plan — Kitui WASHLAB Spatial Analysis
 
----
-
 ## Phase 1 — Water Access Stress Analysis (Complete)
 
 ### Notebooks
