@@ -1,12 +1,10 @@
 # Data Dictionary — Kitui Borehole Dataset
 
-**File:** `28_04_2026_Borehole_Dashboard_Summary_40-Wards.xlsx`
-**Records:** 632 boreholes across 34 wards (6 additional wards in separate tab)
-**Wards:** 40 (34 in main sheet + 6 in additional tab)
+**Format:** Excel (.xlsx) or CSV
 **CRS:** WGS84 EPSG:4326
-**Last updated:** April 2026
+**Spatial CRS for analysis:** UTM Zone 37N (EPSG:32637)
 
-> **Note:** This data dictionary was written before the final borehole dataset was received. The column reference below reflects the planned dataset structure and may not exactly match the actual column names in the received file. Column names should be verified against the actual file before running Notebook 04. The Python loading code in Notebook 04 includes auto-detection for the most common column name variations.
+The borehole dataset is provided by the Kitui County water authority. Place the file in `Kitui_WASHLAB/boreholes/` on Google Drive before running Notebook 04. The notebook auto-detects the file and prints available columns for verification before proceeding.
 
 ---
 
@@ -19,10 +17,8 @@ from shapely.geometry import Point
 
 # Load the borehole dataset
 # Update sheet_name and header to match the actual file structure
-df = pd.read_excel('28_04_2026_Borehole_Dashboard_Summary_40-Wards.xlsx',
-                   sheet_name='1. Ward Status Summary', header=1)
-
-# Print columns to verify before proceeding
+# Print columns first to verify before proceeding
+df = pd.read_excel('your_borehole_file.xlsx', sheet_name=0, header=0)
 print(df.columns.tolist())
 
 # Convert to GeoDataFrame (once column names are confirmed)
@@ -40,7 +36,7 @@ gdf_utm = gdf.to_crs('EPSG:32637')
 
 ## Ward Name Reconciliation
 
-Five ward names in the borehole dataset differ from the WASI ward names used in Notebooks 01–03. These must be reconciled before any spatial join in Notebook 04.
+Ward names in the borehole dataset may differ slightly from the WASI ward names used in Notebooks 01 to 03. Reconcile before any spatial join in Notebook 04. The table below documents the mismatches found in the April 2026 dataset — check against any updated file.
 
 | Borehole dataset name | WASI ward name |
 |-----------------------|----------------|
@@ -50,27 +46,27 @@ Five ward names in the borehole dataset differ from the WASI ward names used in 
 | Mutomo/Kibwea | Mutomo |
 | Yatta/Kwa Vonza | Kwavonza/Yatta |
 
-The six additional wards (Central, Kivou, Mui, Nguni, Nuu, Waita) are in a separate tab in the Excel file and must be merged into the main dataset before running Notebook 04.
+If the dataset covers fewer than 40 wards, check whether the remaining wards are in a separate tab or sheet and merge them into the main dataset before running Notebook 04.
 
 ---
 
-## Column Reference
+## Expected Column Reference
 
-> The columns below reflect the planned dataset structure. Verify against the actual file before use.
+The columns below describe the expected dataset structure. Verify names against the actual file before use. Notebook 04 includes auto-detection for the most common column name variations.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `Borehole_ID` | Text | Stable internal ID. Format: `KTI-NNNN`. Unique across all records. |
-| `Sub_County` | Text | Sub-county name. Title Case. One of 7 Kitui sub-counties. |
-| `Ward` | Text | Ward name. Title Case. 40 unique wards. See reconciliation table above. |
+| `Borehole_ID` | Text | Unique identifier per borehole. |
+| `Sub_County` | Text | Sub-county name. One of 7 Kitui sub-counties. |
+| `Ward` | Text | Ward name. 40 unique wards. See reconciliation table above. |
 | `Borehole_Name` | Text | Official borehole name. |
-| `Latitude` | Float | Decimal degrees. WGS84. Valid Kitui range: -2.2 to -0.2. |
-| `Longitude` | Float | Decimal degrees. WGS84. Valid Kitui range: 37.6 to 39.1. |
+| `Latitude` | Float | Decimal degrees. WGS84. Valid Kitui range: -3.1 to 0.0. |
+| `Longitude` | Float | Decimal degrees. WGS84. Valid Kitui range: 37.5 to 39.2. |
 | `Functionality_Status` | Text | See status vocabulary below. |
 | `Is_Functional` | Boolean | `True` if borehole is operational. For quick filtering. |
 | `Management_Type` | Text | See management vocabulary below. |
 | `Population_Served_HHs` | Integer | Households served. Verify if >3,000. |
-| `Yield_m3_hr` | Float | Borehole yield m³/hr. Verify if >50 (may be scheme-level total). |
+| `Yield_m3_hr` | Float | Borehole yield in m³/hr. Verify if >50 (may be scheme-level total). |
 | `GPS_Quality` | Text | See GPS quality flags below. |
 | `Data_Source` | Text | Origin of the record. |
 
@@ -112,7 +108,7 @@ The six additional wards (Central, Kivou, Mui, Nguni, Nuu, Waita) are in a separ
 | `Verified` | Safe to use in spatial analysis |
 | `Needs Review` | Verify before spatial use |
 | `Low Confidence` | Verify name and location before use |
-| `No GPS` | No coordinates available — cannot be used in coverage gap map |
+| `No GPS` | No coordinates available — cannot be included in coverage gap map |
 
 ---
 
@@ -125,29 +121,30 @@ functional = df[df['Is_Functional'] == True]
 # Non-functional boreholes — rehabilitation candidates
 non_functional = df[df['Is_Functional'] == False]
 
-# Boreholes with GPS available
-has_gps = df[df['Latitude'].notna() & df['Longitude'].notna()]
-
-# Validate coordinate ranges for Kitui
+# Validate coordinate ranges for Kitui County
 valid_coords = df[
     (df['Longitude'] >= 37.5) & (df['Longitude'] <= 39.2) &
     (df['Latitude'] >= -3.1) & (df['Latitude'] <= 0.0)
 ]
+
+# Boreholes with coordinates available
+has_gps = df[df['Latitude'].notna() & df['Longitude'].notna()]
+
+# Boreholes missing coordinates — cannot be used in spatial analysis
+no_gps = df[df['Latitude'].isna() | df['Longitude'].isna()]
 ```
 
 ---
 
-## Known Data Gaps
-
-> Gap counts below are estimates based on the received dataset. Confirm exact counts after running Notebook 04.
+## Common Data Gaps
 
 | Gap | Impact | Resolution |
 |-----|--------|------------|
-| 6 additional wards in separate tab | Not included in main spatial join | Merge before running Notebook 04 |
-| 5 ward name mismatches | Spatial join will fail without reconciliation | See reconciliation table above |
-| Boreholes with no GPS coordinates | Cannot be included in coverage gap map | Field GPS collection required |
-| Missing population served data | Cannot quantify population in gap for affected wards | Field collection |
-| Missing yield data | Cannot assess reliable yield for affected boreholes | Field collection |
+| Missing GPS coordinates | Cannot include in coverage gap map | Field GPS collection required |
+| Missing population served | Cannot quantify population in gap | Field data collection |
+| Missing yield data | Cannot assess reliable yield | Field data collection |
+| Ward names not matching WASI wards | Spatial join will fail | See reconciliation table above |
+| Wards in separate tab or sheet | Not included in main join | Merge before running Notebook 04 |
 
 ---
 
