@@ -1,10 +1,5 @@
 # Analysis Plan — Kitui WASHLAB Spatial Analysis
 
-**Client:** Washlab Consult Limited
-**Analyst:** Davis Mironga
-**Agreement date:** 17 April 2026
-**Total budget:** KES 70,000 (Phase 1: 50K | Phase 2: 20K)
-
 ---
 
 ## Phase 1 — Water Access Stress Analysis (Complete)
@@ -42,7 +37,7 @@ C1 is excluded from Phase 1 because the borehole dataset was not available at th
 ### Key Phase 1 findings
 
 | Ward | WASI | Class | Key signal |
-|------|------|-------|-----------|
+|------|------|-------|------------|
 | Kanziko | 0.559 | High | All four components elevated simultaneously |
 | Township | 0.540 | Moderate | Highest population exposure in county (C4 = 0.970) |
 | Ikutha | 0.528 | Moderate | High rainfall variability and vegetation decline |
@@ -80,11 +75,10 @@ Moran's I = 0.332 (p = 0.001). Spatial clustering confirmed. 15.1% of county in 
 
 | Item | Detail |
 |------|--------|
+| Total boreholes | 730 across all 40 wards |
+| Individual records (34 wards) | 632 — used directly in spatial coverage gap analysis |
+| Ward-level summaries (6 wards) | 98 boreholes across Central, Kivou, Mui, Nguni, Nuu, Waita — ward-level estimates only |
 | Source | Pending |
-| File | 28_04_2026_Borehole_Dashboard_Summary_40-Wards.xlsx |
-| Total boreholes | 632 |
-| County functionality rate | 76.5% |
-| Coverage | 34 wards in main sheet, 6 additional wards in separate tab |
 
 ### Ward name reconciliation required before Phase 2 spatial join
 
@@ -95,8 +89,6 @@ Moran's I = 0.332 (p = 0.001). Spatial clustering confirmed. 15.1% of county in 
 | Mutitu/Kaliku | Mutito/Kaliku |
 | Mutomo/Kibwea | Mutomo |
 | Yatta/Kwa Vonza | Kwavonza/Yatta |
-
-The six additional wards (Central, Kivou, Mui, Nguni, Nuu, Waita) in the separate tab must also be merged into the main dataset before running Notebook 04.
 
 ---
 
